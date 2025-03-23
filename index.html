@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusDeals - Bulk Discounts for College Students</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            color: #4caf50;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .logo span {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            color: #ff6b35;
+        }
+        
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .search-bar {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            width: 200px;
+        }
+        
+        .user-info {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-image {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .product-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .generate-link-btn {
+            background-color: #ff6b35;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            width: fit-content;
+        }
+        
+        .generate-link-btn:hover {
+            background-color: #e85a2a;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .friends-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .friend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .friend-item input {
+            margin-right: 10px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .share-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .cancel-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .checkout-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            margin-top: 15px;
+        }
+        
+        footer {
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .footer-links a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .social-links i {
+            margin-left: 15px;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-university"></i>
+            <span>CampusDeals</span>
+        </div>
+        
+        <nav>
+            <a href="#">Electronics</a>
+            <a href="#">Books</a>
+            <a href="#">Clothing</a>
+            <a href="#">Accessories</a>
+            <a href="#">Stationery</a>
+            <a href="#">Sports</a>
+        </nav>
+        
+        <div class="right-section">
+            <input type="text" class="search-bar" placeholder="Search for products...">
+            <div class="user-info">John Doe</div>
+        </div>
+    </header>
+    
+    <div class="products-grid">
+        <div class="product-card">
+            <img src="/api/placeholder/400/320" alt="Stylish Backpack" class="product-image">
+            <div class="product-title">Stylish Backpack</div>
+            <div class="product-price">₹39.99</div>
+            <button class="generate-link-btn" onclick="openModal('Stylish Backpack', '₹39.99')">Generate Link</button>
+        </div>
+        
+        <div class="product-card">
+            <img src="/api/placeholder/400/320" alt="Eco-Friendly Notebooks" class="product-image">
+            <div class="product-title">Eco-Friendly Notebooks</div>
+            <div class="product-price">₹12.50</div>
+            <button class="generate-link-btn" onclick="openModal('Eco-Friendly Notebooks', '₹12.50')">Generate Link</button>
+        </div>
+        
+        <div class="product-card">
+            <img src="/api/placeholder/400/320" alt="Wireless Earbuds" class="product-image">
+            <div class="product-title">Wireless Earbuds</div>
+            <div class="product-price">₹59.99</div>
+            <button class="generate-link-btn" onclick="openModal('Wireless Earbuds', '₹59.99')">Generate Link</button>
+        </div>
+        
+        <div class="product-card">
+            <img src="/api/placeholder/400/320" alt="Stainless Steel Water Bottle" class="product-image">
+            <div class="product-title">Stainless Steel Water Bottle</div>
+            <div class="product-price">₹24.99</div>
+            <button class="generate-link-btn" onclick="openModal('Stainless Steel Water Bottle', '₹24.99')">Generate Link</button>
+        </div>
+        
+        <div class="product-card">
+            <img src="/api/placeholder/400/320" alt="Running Shoes" class="product-image">
+            <div class="product-title">Running Shoes</div>
+            <div class="product-price">₹89.99</div>
+            <button class="generate-link-btn" onclick="openModal('Running Shoes', '₹89.99')">Generate Link</button>
+        </div>
+        
+        <div class="product-card">
+            <img src="/api/placeholder/400/320" alt="Laptop Sleeve" class="product-image">
+            <div class="product-title">Laptop Sleeve</div>
+            <div class="product-price">₹29.99</div>
+            <button class="generate-link-btn" onclick="openModal('Laptop Sleeve', '₹29.99')">Generate Link</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="shareModal">
+        <div class="modal-content">
+            <div class="modal-title">Share <span id="modalProductName"></span> (₹<span id="modalProductPrice"></span>) with friends</div>
+            
+            <div class="friends-list">
+                <div class="friend-item">
+                    <input type="checkbox" id="friend1">
+                    <label for="friend1">Rahul Sharma</label>
+                </div>
+                <div class="friend-item">
+                    <input type="checkbox" id="friend2">
+                    <label for="friend2">Priya Patel</label>
+                </div>
+                <div class="friend-item">
+                    <input type="checkbox" id="friend3">
+                    <label for="friend3">Vikram Singh</label>
+                </div>
+                <div class="friend-item">
+                    <input type="checkbox" id="friend4">
+                    <label for="friend4">Ananya Mehta</label>
+                </div>
+                <div class="friend-item">
+                    <input type="checkbox" id="friend5">
+                    <label for="friend5">Raj Kumar</label>
+                </div>
+                <div class="friend-item">
+                    <input type="checkbox" id="friend6">
+                    <label for="friend6">Neha Gupta</label>
+                </div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+                <button class="share-btn" onclick="shareWithFriends()">Share Now</button>
+            </div>
+            
+            <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">Customer Service</a>
+            <a href="#">Terms and Conditions</a>
+        </div>
+        
+        <div class="social-links">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+    </footer>
+    
+    <script>
+        function openModal(productName, productPrice) {
+            document.getElementById('modalProductName').textContent = productName;
+            document.getElementById('modalProductPrice').textContent = productPrice;
+            document.getElementById('shareModal').style.display = 'flex';
+            document.getElementById('checkoutBtn').style.display = 'none';
+        }
+        
+        function closeModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+        
+        function shareWithFriends() {
+            // Simulate sharing the link with selected friends
+            document.getElementById('checkoutBtn').style.display = 'block';
+            
+            // Get all checkboxes
+            const checkboxes = document.querySelectorAll('.friend-item input');
+            let selectedCount = 0;
+            
+            // Count selected friends
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedCount++;
+                }
+            });
+            
+            if (selectedCount > 0) {
+                alert(`Link shared with ${selectedCount} friends. You can now proceed to checkout!`);
+            } else {
+                alert("Please select at least one friend to share with.");
+            }
+        }
+        
+        function checkout() {
+            alert("Proceeding to checkout with your bulk purchase discount!");
+            closeModal();
+        }
+    </script>
+</body>
+</html>
